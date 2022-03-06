@@ -1,0 +1,100 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/car"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{carId > 0 ? 'Edit' : 'Add'}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form #editForm="ngForm" (ngSubmit)="onEdit(editForm)" style="height: 100%;">
+    <ion-grid style="height: inherit;" *ngIf="this.car !== undefined">
+      <ion-row class="ion-align-items-center" style="height: 100%;">
+        <ion-col offset-sm="3" size-sm="6">
+          <ion-card *ngIf="this.carData !== undefined">
+            <ion-card-header class="ion-text-center">
+              <ion-card-title>
+                <ion-icon name="flash-sharp" color="warning"></ion-icon>
+                {{carId > 0 ? 'Edit ZAP Car' : 'Add a ZAP Car'}}
+                <ion-icon name="flash-sharp" color="warning"></ion-icon>
+              </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+            <ion-item class="item-content">
+              <ion-label position="floating">Car Name</ion-label>
+              <ion-input type="text" [ngModel]="this.car.name" name="name" required #nameCtrl="ngModel"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="nameCtrl.touched && !nameCtrl.valid" lines="none">
+              <ion-label color="danger">Please input the name of the car</ion-label>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Car Type</ion-label>
+              <ion-select [ngModel]="this.car.type" required name="carType" mode="ios">
+                <ion-select-option *ngFor="let carType of carData.carTypes" [value]="carType.id">{{carType.name}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Car Class</ion-label>
+              <ion-select [ngModel]="this.car.class" required name="carClass" mode="ios">
+                <ion-select-option *ngFor="let carClass of carData.carClasses" [value]="carClass.id">{{carClass.name}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Car Brand</ion-label>
+              <ion-select [ngModel]="this.car.brand" required name="carBrand" mode="ios">
+                <ion-select-option *ngFor="let carBrand of carData.carBrands" [value]="carBrand.id">{{carBrand.name}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item class="item-content">
+              <ion-label position="floating">License Plate</ion-label>
+              <ion-input type="text" [ngModel]="this.car.licensePlate" name="licensePlate" required #licensePlateCtrl="ngModel"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="licensePlateCtrl.touched && !licensePlateCtrl.valid" lines="none">
+              <ion-label color="danger">Please input the license plate of the car</ion-label>
+            </ion-item>
+
+            <ion-item class="item-content">
+              <ion-label position="floating">Odometer</ion-label>
+              <ion-input type="number" inputmode="numeric" [ngModel]="this.car.odometer" name="odometer" required #odometerCtrl="ngModel" value="0"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="odometerCtrl.touched && !odometerCtrl.valid" lines="none">
+              <ion-label color="danger">Please input the odometer of the car</ion-label>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Manufacure Date</ion-label>
+              <ion-datetime type="date" [ngModel]="this.car.manufactureDate" name="manufactureDate" required #manufactureDateCtrl="ngModel" displayFormat="DD/MM/YYYY" min="2000-01-01"></ion-datetime>
+            </ion-item>
+            <ion-item *ngIf="manufactureDateCtrl.touched && !manufactureDateCtrl.valid" lines="none">
+              <ion-label color="danger">Please choose the manufacture date of the car</ion-label>
+            </ion-item>
+
+            <ion-item class="item-content">
+              <ion-label position="floating">Price / Hour</ion-label>
+              <ion-input type="number" [ngModel]="this.car.price" name="price" required #priceCtrl="ngModel"></ion-input>
+            </ion-item>
+            <ion-item *ngIf="priceCtrl.touched && !priceCtrl.valid" lines="none">
+              <ion-label color="danger">Please enter the price of the car</ion-label>
+            </ion-item>
+
+            <ion-item class="item-content">
+              <ion-label position="stacked">Photo</ion-label>
+              <ion-input type="file" ngModel name="photo" (change)="onDocumentUpload($event.target.files)"></ion-input>
+            </ion-item>
+
+            <ion-button type="submit" [disabled]="!editForm.valid || isPictureLoaded === false" expand="block">{{isLoading? "": carId > 0 ? 'Edit' : 'Add'}}
+              <ion-spinner *ngIf="isLoading"></ion-spinner>
+            </ion-button>
+          </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

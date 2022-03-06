@@ -1,0 +1,129 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/car"></ion-back-button>
+    </ion-buttons>
+    
+    <ion-title *ngIf="car !== undefined">
+      Car details - {{car.brand}} {{car.name}}
+    </ion-title>
+
+    <ion-button *ngIf="authService.isAdmin()" slot="end" color="dark" shape="round" title="Edit" (click)="editPage()">
+      <ion-icon name="pencil-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button *ngIf="authService.isAdmin()" slot="end" color="danger" shape="round" title="Delete" (click)="onDelete()"> 
+      <ion-icon name="trash-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-lg="6" offset-lg="3">
+        <ion-card *ngIf="this.car !== undefined">
+          <img [src]="car.picture !== null ?
+               'data:image/jpg;base64,' + car.picture :
+               'https://www.zastavki.com/pictures/originals/2020Auto___Honda_Yellow_car_Honda_NSX_on_a_black_background_138992_.jpg'"
+               style="width: 100%; max-height: 500px;"/>
+          <ion-card-header class="ion-text-center">
+            <ion-card-subtitle>{{car.class}}</ion-card-subtitle>
+            <ion-card-title>{{car.brand}} {{car.name}}</ion-card-title>
+          </ion-card-header>
+      
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-icon name="car-sport-outline" slot="start" color="warning"></ion-icon>
+              <ion-label>Type: {{car.type}}</ion-label>
+            </ion-item>
+      
+            <ion-item lines="none">
+              <ion-icon name="browsers-outline" slot="start"></ion-icon>
+              <ion-label>License Plate: {{car.licensePlate}}</ion-label>
+            </ion-item>
+      
+            <ion-item lines="none">
+              <ion-icon name="analytics-outline" slot="start"></ion-icon>
+              <ion-label>Odometer: {{car.odometer}}</ion-label>
+            </ion-item>
+      
+            <ion-item lines="none">
+              <ion-icon name="calendar-outline" slot="start"></ion-icon>
+              <ion-label>Manufacture Date: {{car.manufactureDate}}</ion-label>
+            </ion-item>
+      
+            <ion-item lines="none">
+              <ion-icon name="cash-outline" slot="start" color="success"></ion-icon>
+              <ion-label>Price / Hour: {{car.price}} RON</ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-title class="ion-text-center">
+              Choose the rental period
+            </ion-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size-lg="5">
+                  <ion-item lines="none">
+                    <ion-label>From: </ion-label>
+                    <ion-datetime min="2021-05-13" max="2025-12-31" [(ngModel)]="this.startDate"></ion-datetime>
+                  </ion-item>
+                </ion-col>
+                <ion-col size-lg="5" offset-lg="2">
+                  <ion-item lines="none">
+                    <ion-label>To: </ion-label>
+                    <ion-datetime min="2021-05-13" max="2025-12-31" [(ngModel)]="this.endDate"></ion-datetime>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+            <ion-button slot="secondary" type="submit" (click)="onRent()" expand="block">Rent</ion-button>
+          </ion-card-content> 
+        </ion-card>   
+
+        <ion-card *ngIf="authService.isAuthenticated()">
+          <ion-card-header class="ion-text-center">
+            <ion-card-title>
+              Rentals
+            </ion-card-title>
+          </ion-card-header>
+          
+          <ion-card-content *ngFor="let reservation of reservations;">
+            <ion-card>
+              <ion-card-content>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col style="height: 100%;" [routerLink]="['/customer/detail']" [queryParams]="{customerId : reservation.userId}" size="4">
+                      <ion-item lines="none">
+                        <ion-icon [name]="reservation.incident===false ? 'person-outline' : 'warning-outline'" 
+                                  [color]="reservation.incident===false ? 'warning' : 'danger'" slot="start">
+                        </ion-icon>
+                        <ion-label>{{reservation.userName}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col size="4" class="ion-text-center">
+                      From: {{reservation.startDate.substring(0,10)}}
+                      <br/>
+                      To: {{reservation.endDate.substring(0,10)}}
+                    </ion-col>
+                    <ion-col size="4">
+                      <ion-item lines="none">
+                        <ion-icon slot="end" [name]="reservation.reservationTypeId === reservationType.Maintenance ? 'build-outline' : 'briefcase-outline'" color="secondary"></ion-icon>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-content>
+            </ion-card>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

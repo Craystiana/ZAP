@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      Customers
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-lg="4"
+               size = "12"
+               *ngFor="let customer of customerList; let i">
+        <ion-card [routerLink]="['/customer/detail']" [queryParams]="{customerId : customer.customerId}">
+          <ion-card-header style="margin-bottom: -15px;">
+            <ion-card-subtitle>Customer</ion-card-subtitle>
+            <ion-item lines="none" style="margin-left: -15px;" color="transparent">
+              <ion-label>
+                {{customer.lastName}} {{customer.firstName}}
+              </ion-label>
+              <ion-icon name="person-outline" 
+                        slot="end"
+                        [color]="customer.isBlacklisted ? 'danger' : 'primary'"></ion-icon>
+            </ion-item>
+          </ion-card-header>
+          <ion-card-content>{{customer.email}}</ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>   
+  </ion-grid>
+</ion-content>

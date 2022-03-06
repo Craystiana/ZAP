@@ -1,0 +1,122 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col size-lg="2">
+          <ion-title style="height: 100%;">Cars</ion-title>
+        </ion-col>
+        
+        <ion-col offset-lg="2" size-lg="4">
+          <ion-searchbar mode="ios"
+                         debounce="500"
+                         animated
+                         color="dark"
+                         placeholder="Search ZAP Cars"
+                         style="padding: inherit;"
+                         [(ngModel)]="searchTerm"
+                         (ionChange)="getCarList()"></ion-searchbar>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-button *ngIf="authService.isAdmin()" slot="end" color="dark" shape="round" title="Add Car" (click)="addPage()">
+      <ion-icon name="add-circle-outline"></ion-icon>
+    </ion-button>
+
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="carData !== undefined">
+  <ion-toolbar>
+    <ion-select placeholder="Class"
+                okText="Save"
+                cancelText="Clear"
+                slot="start"
+                multiple
+                class="ion-padding"
+                mode="ios"
+                name="Car Class"
+                [(ngModel)]="carClass"
+                (ionChange)="getCarList()"
+                (ionCancel)="carClass=null">
+      <ion-select-option *ngFor="let carClass of carData.carClasses" [value]="carClass.id">{{carClass.name}}</ion-select-option>
+    </ion-select>
+
+    <ion-select placeholder="Type"
+                okText="Save"
+                cancelText="Clear"
+                slot="start"
+                multiple
+                class="ion-padding"
+                mode="ios"
+                [(ngModel)]="carType"
+                (ionChange)="getCarList()"
+                (ionCancel)="carType=null">
+      <ion-select-option *ngFor="let carType of carData.carTypes" [value]="carType.id">{{carType.name}}</ion-select-option>
+    </ion-select>
+
+    <ion-select placeholder="Brand" 
+                okText="Save" 
+                cancelText="Clear" 
+                slot="start" 
+                multiple 
+                class="ion-padding"
+                mode="ios" 
+                [(ngModel)]="carBrand" 
+                (ionChange)="getCarList()"
+                (ionCancel)="carBrand=null">
+      <ion-select-option *ngFor="let carBrand of carData.carBrands" [value]="carBrand.id">{{carBrand.name}}</ion-select-option>
+    </ion-select>
+
+    <ion-select placeholder="Sort By"
+                okText="Save"
+                cancelText="Clear"
+                slot="end"
+                class="ion-padding"
+                mode="ios"
+                [(ngModel)]="sortBy" 
+                (ionChange)="getCarList()"
+                (ionCancel)="sortBy=null">
+      <ion-select-option [value]="sortType.Name">Name</ion-select-option>
+      <ion-select-option [value]="sortType.Price">Price</ion-select-option>
+      <ion-select-option [value]="sortType.Odometer">Kilometers</ion-select-option>
+      <ion-select-option [value]="sortType.ManufactureDate">Manufacture Date</ion-select-option>
+    </ion-select>
+  </ion-toolbar>
+
+  <ion-grid>
+    <ion-row style="justify-content: center">
+      <ion-col size-lg="3" 
+               *ngFor="let car of carList">
+        <ion-card [routerLink]="['/car/detail']" [queryParams]="{carId : car.carId}">
+          <img [src]="car.picture !== null ?
+           'data:image/jpg;base64,' + car.picture :
+           'https://www.zastavki.com/pictures/originals/2020Auto___Honda_Yellow_car_Honda_NSX_on_a_black_background_138992_.jpg'"
+          style="width: 100%; height: 200px;"/>
+          <ion-card-header class="ion-text-center">
+            <ion-card-subtitle>{{car.class}}</ion-card-subtitle>
+            <ion-card-title>{{car.brand}} {{car.name}}</ion-card-title>
+          </ion-card-header>
+      
+          <ion-card-content>
+            <ion-item lines="none" color="transparent">
+              <ion-icon name="car-sport-outline" slot="start" color="warning"></ion-icon>
+              <ion-label>{{car.type}}</ion-label>
+            </ion-item>
+      
+            <ion-item lines="none">
+              <ion-icon name="cash-outline" slot="start" color="success"></ion-icon> 
+              <ion-label>{{car.price}} RON / Hour</ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+     
+
+</ion-content>

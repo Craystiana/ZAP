@@ -1,0 +1,60 @@
+<ion-app>
+  <ion-menu side="start"  class="ion-text-center">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title text-center>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content  *ngIf="authService.isAuthenticated()">
+      <ion-item class="ion-text-center">
+        <ion-grid>
+          <ion-row>
+            <ion-col offset-lg="3" size-lg="6">
+              <ion-chip (click)="onClick(this.fileTab.Profile)" button>
+                <ion-label>{{this.authService.currentUserName}}</ion-label>
+              </ion-chip>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-item>
+      <ion-list>
+        <ion-menu-toggle>
+          <ion-item lines="none" (click)="onClick(this.fileTab.Cars)" button>
+            <ion-label>Cars</ion-label>
+            <ion-icon name="car-sport-outline" slot="start"></ion-icon>
+          </ion-item>
+
+          <ion-item lines="none"
+                    *ngIf="authService.isAdmin()"
+                    (click)="onClick(this.fileTab.Customers)"
+                    button>
+            <ion-label>Customers</ion-label>
+            <ion-icon name="people-outline" slot="start"></ion-icon>
+          </ion-item>
+
+          <ion-item lines="none"
+                    *ngIf="authService.isAdmin()"
+                    (click)="onClick(this.fileTab.AddAdmin)"
+                    button>
+            <ion-label>Add Admin</ion-label>
+            <ion-icon name="person-add-outline" slot="start"></ion-icon>
+          </ion-item>
+
+          <ion-item lines="none" (click)="onClick(this.fileTab.Profile)" button>
+            <ion-label>My Profile</ion-label>
+            <ion-icon name="person-outline" slot="start"></ion-icon>
+          </ion-item>
+
+          <ion-item lines="none" (click)="onLogout()" button>
+            <ion-label>Logout</ion-label>
+            <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          </ion-item>
+        </ion-menu-toggle>
+
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet main></ion-router-outlet>
+</ion-app>

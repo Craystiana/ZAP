@@ -1,0 +1,86 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/customer"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Customer details</ion-title>
+    <ion-item slot="end" lines="none" *ngIf="customer !== undefined" color="transparent">
+      <ion-label>Blacklist</ion-label>
+      <ion-toggle slot="end" 
+                  color="danger"
+                  (ionChange)="onBlacklist()" 
+                  [checked]="customer.isBlacklisted">
+                  Blacklist
+      </ion-toggle>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-lg="6" offset-lg="3">
+        <ion-card *ngIf="this.customer !== undefined">
+          <ion-card-header class="ion-text-center">
+            <ion-card-title>{{customer.lastName}} {{customer.firstName}}</ion-card-title>
+          </ion-card-header>
+      
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-icon name="mail-outline" slot="start"></ion-icon>
+              <ion-label>Email: {{customer.email}}</ion-label>
+            </ion-item>
+      
+            <ion-item lines="none" *ngIf="customer.phoneNumber !== null">
+              <ion-icon name="call-outline" slot="start"></ion-icon>
+              <ion-label>Phone: {{customer.phoneNumber}}</ion-label>
+            </ion-item>
+      
+            <ion-item lines="none" *ngIf="customer.address !== null">
+              <ion-icon name="home-outline" slot="start"></ion-icon>
+              <ion-label>Address: {{customer.address}}</ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-header class="ion-text-center">
+            <ion-card-title>
+              Rentals
+            </ion-card-title>
+          </ion-card-header>
+          
+          <ion-card-content *ngFor="let reservation of reservations;">
+            <ion-card>
+              <ion-card-content>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col style="height: 100%;" [routerLink]="['/car/detail']" [queryParams]="{carId : reservation.carId}" size="4">
+                      <ion-item *ngIf="reservation.incident===false" lines="none">
+                        <ion-icon name="car-sport-outline" color="warning" slot="start"></ion-icon>
+                        <ion-label>{{reservation.carName}}</ion-label>
+                      </ion-item>
+                      <ion-item *ngIf="reservation.incident===true" lines="none">
+                        <ion-icon name="warning-outline" color="danger" slot="start"></ion-icon>
+                        <ion-label>{{reservation.carName}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col size="4" class="ion-text-center">
+                      From: {{reservation.startDate.substring(0,10)}}
+                      <br/>
+                      To: {{reservation.endDate.substring(0,10)}}
+                    </ion-col>
+                    <ion-col size="4">
+                      <ion-item lines="none">
+                        <ion-icon slot="end" [name]="reservation.reservationTypeId===1 ? 'build-outline' : 'briefcase-outline'" color="secondary"></ion-icon>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-content>
+            </ion-card>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

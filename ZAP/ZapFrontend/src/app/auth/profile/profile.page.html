@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>My Profile</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form #profileForm="ngForm" (ngSubmit)="onProfileEdit(profileForm)" (keyup.enter)="profileForm.valid ? onProfileEdit(profileForm) : 1" style="height: 100%;">
+    <ion-grid *ngIf="this.profile!==undefined" style="height: inherit;">
+      <ion-row class="ion-align-items-center" style="height: 100%;">
+        <ion-col offset-sm="3" size-sm="6">
+          <ion-card>
+            <ion-card-header class="ion-text-center">
+              <ion-card-title>
+                <ion-icon name="flash-sharp" color="warning"></ion-icon>
+                  My Profile
+                <ion-icon name="flash-sharp" color="warning"></ion-icon>
+              </ion-card-title>
+            </ion-card-header>    
+
+            <ion-card-content>
+              <ion-item class="item-content">
+                <ion-label position="floating">First Name</ion-label>
+                <ion-input type="firstName" [ngModel]="this.profile.firstName" name="firstName" required #firstNameCtrl="ngModel"></ion-input>
+              </ion-item>
+
+              <ion-item class="item-content">
+                <ion-label position="floating">Last Name</ion-label>
+                <ion-input type="lastName" [ngModel]="this.profile.lastName" name="lastName" required #lastNameCtrl="ngModel"></ion-input>
+              </ion-item>
+
+              <ion-item class="item-content">
+                <ion-label position="floating">Email Address</ion-label>
+                <ion-input type="email" [ngModel]="this.profile.email" name="email" required #emailAddressCtrl="ngModel"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Phone Number</ion-label>
+                <ion-input type="phoneNumber" [ngModel]="this.profile.phoneNumber" name="phoneNumber" #phoneCtrl="ngModel" minlength="7"
+                  clearOnEdit="false"> </ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Address</ion-label>
+                <ion-input type="address" [ngModel]="this.profile.address" name="address" #addressCtrl="ngModel"> 
+                </ion-input>
+              </ion-item>
+
+              <ion-button type="submit" [disabled]="!profileForm.valid" expand="block">{{isLoading? "": "Edit"}}
+                <ion-spinner *ngIf="isLoading"></ion-spinner>
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

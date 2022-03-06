@@ -1,0 +1,7 @@
+{
+  "name": "ZapFrontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

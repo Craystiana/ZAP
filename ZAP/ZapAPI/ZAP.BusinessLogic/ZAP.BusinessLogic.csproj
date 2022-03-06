@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ZAP.Common\ZAP.Common.csproj" />
+    <ProjectReference Include="..\ZAP.DataAccess\ZAP.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>

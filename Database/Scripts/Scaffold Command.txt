@@ -1,0 +1,1 @@
+Scaffold-DbContext -Connection "name=DatabaseConnectionString" -Provider Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entities -ContextDir ../ZAP.DataAccess -Context Context -f

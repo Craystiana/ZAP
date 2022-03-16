@@ -4,7 +4,10 @@ const config: CapacitorConfig = {
   appId: 'com.CarReservation.ZAP',
   appName: 'ZapFrontend',
   webDir: 'www',
-  bundledWebRuntime: false
+  bundledWebRuntime: false,
+  android: {
+    allowMixedContent: true
+  }
 };
 
 export default config;

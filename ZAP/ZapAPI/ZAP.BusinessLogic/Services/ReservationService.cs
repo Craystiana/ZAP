@@ -28,7 +28,7 @@ namespace ZAP.BusinessLogic.Services
             var reservations = _unitOfWork.ReservationRepository.Find(r => r.CarId == carId &&
                                                                           (r.StartDate < startDate && startDate < r.EndDate) ||
                                                                           (r.StartDate < endDate && endDate < r.EndDate));
-            return reservations.Any();
+            return reservations.FirstOrDefault() == null;
         }
 
         public bool HasAccess(int reservationId, int userId)
@@ -46,6 +46,8 @@ namespace ZAP.BusinessLogic.Services
                 EndDate = model.EndDate,
                 UserId = userId
             });
+
+            _unitOfWork.SaveChanges();
         }
 
         public void RemoveReservation(int reservationId)

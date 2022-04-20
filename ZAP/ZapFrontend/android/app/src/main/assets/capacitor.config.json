@@ -5,5 +5,8 @@
 	"bundledWebRuntime": false,
 	"android": {
 		"allowMixedContent": true
+	},
+	"server": {
+		"url": "http://192.168.50.215:8100"
 	}
 }

@@ -41,7 +41,7 @@ export class RegisterPage implements OnInit {
         }
         else{
           this.toastCtrl.create({
-            message: 'Register failed',
+            message: 'Here',
             duration: 5000,
             position: 'bottom',
             color: 'danger',
@@ -52,7 +52,7 @@ export class RegisterPage implements OnInit {
       },
       error => {
         this.toastCtrl.create({
-          message: 'Register failed',
+          message: error.message,
           duration: 5000,
           position: 'bottom',
           color: 'danger',

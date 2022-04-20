@@ -6,7 +6,7 @@ export const environment = {
   production: false
 };
 
-export const API_URL = 'https://10.0.2.2:44356';
+export const API_URL = 'https://c623-82-77-165-60.ngrok.io';
 export const LOGIN_URL = '/user/login'; 
 export const REGISTER_URL = '/user/register';
 export const REGISTER_ADMIN_URL = '/user/registerAdmin';

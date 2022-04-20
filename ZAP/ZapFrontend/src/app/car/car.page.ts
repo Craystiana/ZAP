@@ -8,7 +8,6 @@ import { Car } from '../models/car/car';
 import { CarData } from '../models/car/carData';
 import { CarQuery } from '../models/car/carQuery';
 import { CarService } from './car.service';
-
 @Component({
   selector: 'app-car',
   templateUrl: './car.page.html',
